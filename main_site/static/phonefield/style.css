@@ -1,0 +1,56 @@
+.phone_form {
+	width: 300px;
+	margin: 50px auto;
+	position: relative;
+}
+#user_phone {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 8px 8px 8px 36px;
+	height: 40px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+	color: #363636;
+}
+#user_phone:focus {
+	outline: none;
+	border-color: #363636;
+}
+input#user_phone:-moz-placeholder {
+	color: #363636;
+}
+input#user_phone::-webkit-input-placeholder {
+	color: #363636;
+}
+.user_phone {
+	position: relative;
+}
+.user_phone:before {
+	content: "+38";
+	display: block;
+	height: 40px;
+	color: #363636;
+	position: absolute;
+	top: 6px;
+	left: 7px;
+	font-size: 16px;
+}
+.btn_submit {
+	height: 30px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background: #363636;
+	color: #fff;
+	border: none;
+	width: 120px;
+	cursor: pointer;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+.btn_submit.disabled {
+	color: #363636;
+	background: #ccc;
+}

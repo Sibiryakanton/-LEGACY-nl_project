@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+	{% block content %}
+    <section class="block2-section clearfix">
+      <div class="center-block-main">
+        <h2>{{category.title}}</h2>
+		<br>
+		<form action='{% url "category" slug="for-men" %}' method='post'>
+		{% csrf_token %}
+			<label for="id_name">Все категории:</label>
+			<select class="category_filter" id="id_name" name="name" required="">
+				<option value="" selected="selected">---</option>
+				{% for sub in subcat %}
+					<option value="{{sub.pk}}">{{sub.title}}</option>
+				{% endfor %}
+			</select>
+			<input hidden name='cur_category' value='{{category.slug}}' />
+<input type="submit" value="Отфильтровать">
+		</form>
+        <div class="slides">
+			 <ul class='pagination'>
+                {% if cards.has_previous %}
+                    <li><a href="/forsome/{{ category.slug }}/?page={{ pag }}{{ cards.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li><a href="">&laquo;</a></li>
+                {% endif %}
+                {% for pag in cards.paginator.page_range %}
+                    {% if pag == cards.number %}
+                        <li class="active"><a href="/forsome/{{ category.slug }}/?page={{ pag }}">{{ pag }}</a></li>
+                    {% else %}
+                        <li><a href="/forsome/{{ category.slug }}?page={{ pag }}">{{ pag }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if cards.has_next %}
+                    <li class="arrow"><a href="/forsome/{{ category.slug }}?page={{ pag }}{{ cards.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><a href="">&raquo;</a></li>
+                {% endif %}
+            </ul>
+			{% for card in cards %}
+			{% if card.publish is True %}
+			<article>
+            <div class="slide boxShadow">
+              <a href="{% url 'category_description' pk=card.pk %}"><img src="{{card.photo.url}}" alt=""></a>
+              <div class="desc product">
+                <a href="{% url 'category_description' pk=card.pk %}"><h4>{{card.title}}</h4></a>
+				<p><i>{{card.category}}, {{card.subcategory}}</i></p>
+                <p>{{card.description}}</p>
+                <!--<p class="price">{{card.price}} р.</p> -->
+              </div>
+            </div>
+          </article>
+          {% endif %}
+		  {% endfor %}
+		  			 <ul class='pagination'>
+                {% if cards.has_previous %}
+                    <li><a href="/forsome/{{ category.slug }}/?page={{ pag }}{{ cards.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li><a href="">&laquo;</a></li>
+                {% endif %}
+                {% for pag in cards.paginator.page_range %}
+                    {% if pag == cards.number %}
+                        <li class="active"><a href="/forsome/{{ category.slug }}/?page={{ pag }}">{{ pag }}</a></li>
+                    {% else %}
+                        <li><a href="/forsome/{{ category.slug }}?page={{ pag }}">{{ pag }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if cards.has_next %}
+                    <li class="arrow"><a href="/forsome/{{ category.slug }}?page={{ pag }}{{ cards.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><a href="">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+  {% endblock %}

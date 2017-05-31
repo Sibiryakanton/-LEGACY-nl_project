@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load html_tags %}
+		<section class="block1-section clearfix">
+			<div class="slides">
+				
+			</div>
+		</section>
+		<section class="block2-section clearfix">
+			<div class="center-block-main">
+				<h2>{{article.title}}</h2>
+				<div class="news">
+				    <img  class="img-article" src='{{article.photo.url}}'>
+					<p>{{article.text|safe|escape}}</p>
+				</div>
+			</div>
+		</section>
+{% endblock %}

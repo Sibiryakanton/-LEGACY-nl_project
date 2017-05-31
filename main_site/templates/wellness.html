@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+		<section class="welness">
+			<img src="{% static 'images/Welnesslive.jpg' %}" alt="" >
+		</section>
+		<section class="block2-section clearfix">
+			<div class="center-block-main">
+				<h2>Продукция в стиле<br>Welness</h2>
+				<br />
+				<br />
+				<h4 class='subtitle'>(нажмите на заголовок интересующего продукта, чтобы узнать больше)</h4>
+				<div class="slides">
+					{% for wellness in wellness %}
+					<div class="article_welns">
+						<a href='{% url "post_detail" pk=wellness.pk %}'><img src="{{wellness.photo.url}}" alt=""></a>
+						<h4><a href='{% url "post_detail" pk=wellness.pk %}'>{{wellness.title}}</a></h4>
+						<p>{{wellness.description}}</p>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+{% endblock %}				

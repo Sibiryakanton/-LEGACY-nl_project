@@ -1,0 +1,139 @@
+{% load staticfiles %}
+{% load static %}
+{% load html_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>NL International - сайт NL-структуры Юлии Игиной</title>
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+  <link href="{% static 'phonefield/style.css' %}" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<style type='text/css'>
+	.my_test {
+	-webkit-background-size: cover;
+	background-size: cover;
+	height: 300px;}
+	</style>
+</head>
+<body>
+<script src="{% static 'phonefield/jquery.min.js' %}"></script>
+	<script src="{% static 'phonefield/jquery.maskedinput.min.js' %}"></script>
+	<script src="{% static 'phonefield/is.mobile.js' %}"></script>
+	<script src="{% static 'phonefield/script.js' %}"></script>
+	<script src="{% static 'phonefield/script_second.js' %}"></script>
+  <div class="wpapper">
+    <header class="shadow clearfix">
+      <div class="center-block-main">
+        <div class="logo-box">
+          <a href="/"><img class="logo" src="{% static 'images/nl.png' %}" alt="NL logo"></a>
+        </div>
+        <ul class="top-menu">
+		
+			{% if request.path == '/' or 'products' in request.path or 'forsome' in request.path %}
+				<li class="active">Главная</li>
+			{% else %}
+				<li><a href="/">Главная</a></li>
+			{% endif %}
+			
+			{% if request.path == '/catalog/' %}
+				<li class="active">Каталог</li>
+			{% else %}
+				<li><a href="/catalog/">Каталог</a></li>
+			{% endif %}
+			
+			{% if request.path == '/wellness/' %}
+				<li class="active">Умная еда</li>
+			{% else %}
+				<li><a href="/wellness/">Умная еда</a></li>
+			{% endif %}
+			
+			{% if request.path == '/business/' %}
+				<li class="active">Бизнес-проект</li>
+			{% else %}
+				<li><a href="/business/">Бизнес-проект</a></li>
+			{% endif %}
+			{% if request.path == '/videos/' %}
+				<li class="active">Видео</li>
+			{% else %}
+				<li><a href="/videos/">Видео</a></li>
+			{% endif %}
+        </ul>
+        <div class="popup_overlay"></div>
+			<div class="popup">
+				<article class="contakt-block">
+					<h3>Обратная связь</h3>
+					<div class="ftr-block-content">
+						<form action="{% url 'form_call' %}" method="post">
+							{% csrf_token %}
+							{{ CallForm}}
+							<input class="ftrsubmit" type="submit" value="Отправить!">
+						</form>
+					</div>
+				</article>
+			</div>
+		
+        <button class="button call">Заказать звонок</a>
+      </div>
+    </header>
+		{% block content %}
+		{% endblock %}
+		</div>
+	<footer>
+		<div class="center-block-main">
+        <div class="logo-box">
+          <a href="/"><img class="logo" src="{% static 'images/nl.png' %}" width='30' height='80' alt="NL logo"></a>
+        </div>
+        <ul class="top-menu">
+		
+			{% if request.path == '/' or 'products' in request.path or 'forsome' in request.path %}
+				<li class="active">Главная</li>
+			{% else %}
+				<li><a href="/">Главная</a></li>
+			{% endif %}
+			
+			{% if request.path == '/catalog/' %}
+				<li class="active">Каталог</li>
+			{% else %}
+				<li><a href="/catalog/">Каталог</a></li>
+			{% endif %}
+			
+			{% if request.path == '/wellness/' %}
+				<li class="active">Умная еда</li>
+			{% else %}
+				<li><a href="/wellness/">Умная еда</a></li>
+			{% endif %}
+			
+			{% if request.path == '/business/' %}
+				<li class="active">Бизнес-проект</li>
+			{% else %}
+				<li><a href="/business/">Бизнес-проект</a></li>
+			{% endif %}
+			{% if request.path == '/videos/' %}
+				<li class="active">Видео</li>
+			{% else %}
+				<li><a href="/videos/">Видео</a></li>
+			{% endif %}
+        </ul>
+		
+        <button class="button call">Заказать звонок</a>
+      </div>
+	</footer>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script type="text/javascript">
+          $(function(){
+                $('.call').click(function(){
+                  $('.popup,.popup_overlay').fadeIn(400); //показываем всплывающее окно
+                });
+                $('.closer,.popup_overlay').click(function(){
+                  $('.popup,.popup_overlay').fadeOut(400); //скрываем всплывающее окно
+                });
+              });
+        </script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/bootstrap.min.js"></script>
+      </body>
+      </html>

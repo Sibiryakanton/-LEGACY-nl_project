@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+	{% block content %}
+		<section class="block1-section clearfix">
+			<div class="slides">
+				
+			</div>
+		</section>
+		<section class="block2-section clearfix">
+			<div class="center-block-main">
+				<h2>{{catalog.title}}</h2>
+				<div class="slides" >
+					<iframe width='100%' height='800' src='{{catalog.url}}'></iframe>
+				</div>
+			</div>
+		</section>
+	</div>
+	{% endblock %}

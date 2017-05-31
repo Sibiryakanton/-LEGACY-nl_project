@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+		<section class="block2-section clearfix">
+			<div class="center-block-main">
+				<h2>Видеогалерея</h2>
+				<br />
+				<br />
+				 <ul class='pagination'>
+		 {% if video_list.has_previous %}
+                    <li><a href="/videos/?page={{ video_list.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li><a href="">&laquo;</a></li>
+                {% endif %}
+                {% for pag in video_list.paginator.page_range %}
+                    {% if pag == video_list.number %}
+                        <li class="active"><a href="/videos/?page={{ pag }}">{{ pag }}</a></li>
+                    {% else %}
+                        <li><a href="/videos/?page={{ pag }}">{{ pag }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if video_list.has_next %}
+                    <li class="arrow"><a href="/videos/?page={{ pag }}{{ video_list.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><a href="">&raquo;</a></li>
+                {% endif %}
+            </ul>
+				<div class="slides">
+					{% for video in video_list %}
+					{% if video.in_gallery %}
+					<div class="article_welns">
+						<h4>{{video.title}}</a></h4>
+						<iframe width="560" height="315" src="{{video.video_url}}" frameborder="0" allowfullscreen></iframe>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+{% endblock %}				

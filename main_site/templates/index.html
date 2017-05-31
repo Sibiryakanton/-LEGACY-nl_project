@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <section class="block1-section clearfix">
+      <div class="slides">
+		{% for category in category %}
+        <div class="slide" style="background-image: url({{category.photo.url}});">
+			<a href="/forsome/{{category.slug}}" ><h1>{{ category.title }}</h1></a>
+		</div>
+		{% endfor %}
+      </div>
+    </section>
+    <section class="block2-section clearfix">
+      <div class="center-block-main">
+        <h2>Действующие<br>акции</h2>
+        <div class="slides">
+		{% for list_fix in list_fix %}
+			<article>
+            <h3>{{list_fix.title}}</h3>
+            <div class="slide boxShadow">
+              <a href="{% url 'stock_detail' pk=list_fix.pk %}"><img src='{{list_fix.photo.url}}' alt=""></a>
+              <div class="desc">
+               <h4>{{list_fix.description}}</h4>
+				<a href="{% url 'stock_detail' pk=list_fix.pk %}"><u>Подробнее</u></a>
+                </div>
+              </div>
+            </article>
+		{% endfor %}
+		{% for list in list %}
+          <article>
+            <h3>{{list.title}}</h3>
+            <div class="slide boxShadow">
+              <a href="{% url 'stock_detail' pk=list.pk %}"><img src='{{list.photo.url}}' alt=""></a>
+              <div class="desc">
+               <h4>{{list.description}}</h4>
+				<a href="{% url 'stock_detail' pk=list.pk %}"><u>Подробнее</u></a>
+                </div>
+              </div>
+            </article>
+		{% endfor %}
+              </div>
+            </div>
+          </section>
+        </div>
+{% endblock %}

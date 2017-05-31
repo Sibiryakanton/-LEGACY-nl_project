@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load html_tags %}
+{% block content %}
+		<section class="girl">
+			<img src="{% static 'images/nl-car.jpg' %}" alt="">
+			<div class="center-block-main">
+				<p>Твой <span class="span1">бизнес</span><br>в стиле <span class="span2">драйв</span></p>
+			</div>
+		</section>
+		<section class="block2-section clearfix">
+			<div class="center-block-main">
+				<h2>О компании</h2>
+				<div class="slides">
+					<div class="about">
+						{% for text in text %}
+						{{text.full_text|safe}}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</section>
+						<section class="block2-section clearfix">
+							<div class="center-block-main">
+								<h2>Почему именно мы?</h2>
+								<div class="slides">
+								{% for bullet in bullets %}
+									<div class="desc product oriflame">
+										<img src="{{bullet.photo.url}}" alt="">
+										<h5><a href='{% url "bullet_detail" pk=bullet.pk %}'>{{bullet.title}}</a></h5>
+										<p>{{bullet.description}}</p>
+									</div>
+								{% endfor %}
+								</div>
+							</div>
+						</section>
+						<section class="block2-section clearfix">
+							<section class="video-section">
+								<div class="video-main-text center-block-main">
+									<img src="{% static 'images/video.png' %}" alt="">
+									<h3>Что такое NL?</h3>
+								</div>
+								<h3><a class="button" href='http://nlstar.com/ref/reg/53vPdv/'>Присоединяйся!</a></h3>
+
+								</div>
+								<script type="text/javascript">
+									var handler = function () {this.innerHTML = '<iframe width="560" height="315" src="https://www.youtube.com/embed/O8cCHUh8mOA" frameborder="0" allowfullscreen></iframe>'}; 
+									document.querySelector('.video-main-text').addEventListener('click', function (e) { this.removeEventListener('click', handler, false); handler.apply(this, arguments); } , false);
+								</script>
+							</section>
+						</section>
+						<section class="block4-section center-block-main">
+							<h2>Наши лидеры</h2>
+
+							<div class="block4-main clearfix">
+								{% for sponsor in sponsors %}
+								<article>
+									<img src="{{ sponsor.photo.url}}" alt="">
+									<div class="block4-main-content">            	
+										<p>{{sponsor.surname}}<br>{{sponsor.name}}</p>
+										<p><a class='refferal-url' href='{{sponsor.refferal_url}}'>Реферальная ссылка</a></p>
+									</div>
+								</article>
+								{% endfor %}
+							</div>
+						</section>
+						<section class="block4-section center-block-main">
+							<h2>Напишите нам!</h2>
+						</section>
+						<section class="contakt-main">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d554.7950431789352!2d87.75972542924855!3d56.205844344729314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x43297514cc539115%3A0xe6956e1bc4c6e863!2z0JrQvtC80LzRg9C90LjRgdGC0LjRh9C10YHQutCw0Y8g0YPQuy4sIDczLCDQnNCw0YDQuNC40L3RgdC6LCDQmtC10LzQtdGA0L7QstGB0LrQsNGPINC-0LHQuy4sIDY1MjE1MA!5e0!3m2!1sru!2sru!4v1489393587781" width="100%" height="650" frameborder="0" style="border:0" allowfullscreen></iframe>
+<article class="contakt-block">
+								<h3>Обратная связь</h3>
+								<div class="ftr-block-content">
+									<form action="{% url 'message_call' %}" method='post'>
+										{% csrf_token %}
+										{{form}}
+										<input class="ftrsubmit" type="submit" value="Отправить!">
+									</form>
+									<div class="popup_overlay"></div>
+								</div>
+							</article>
+
+						</section>			
+{% endblock %}

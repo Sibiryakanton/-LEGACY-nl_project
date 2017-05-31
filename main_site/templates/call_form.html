@@ -1,0 +1,11 @@
+﻿<article class="contakt-block">
+	<h3>Обратная связь</h3>
+	<div class="ftr-block-content">
+		<form action="{% url 'form_call' %}" method="post">
+			{% csrf_token %}
+			<p>Имя:<input class="ftrmail" type="text" name='name' placeholder='Иван' required></p>
+			<p>Телефон:<input class="ftrtext" type='tel' name='phone' placeholder='+7-XXX-XXX-XX-XX' required></p>
+			<input class="ftrsubmit" type="submit" value="Отправить!">
+		</form>
+	</div>
+</article>

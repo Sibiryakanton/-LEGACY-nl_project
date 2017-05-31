@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load html_tags %}
+		<section class="block1-section clearfix">
+			<div class="slides">
+				
+			</div>
+		</section>
+		<div style='padding:40px; font-size:20px'>
+		<a href="{% url 'category' slug=current_card.category.slug %}">
+						<img src="{% static 'images/arrow.png' %}" style='width:15px; height:15px;'>
+								Назад в категорию "{{current_card.category.title}}"
+								</a>
+		</div>
+		<section class="block2-section clearfix">
+			<div class="center-block-main">
+				<div class="slides">
+					<div class="good">
+						<img class="img_good" src="{{current_card.photo.url}}" alt="">
+						<div class="description">
+							<h5>{{current_card.title}}</h5>
+						<!--	<p class="price">{{current_card.price}} р.</p> -->
+							<p>{{current_card.description}}</p>
+							<br><br>
+							<p class="desc">{{current_card.full_text|safe|escape}}</p>
+							<!-- <a href="" class="button">Купить</a> <p>Оттенок: Бежевый</p>
+							<p>Размер: 4 г.</p>
+							<p>Количество: Нет в наличии</p>
+							<a href="#">Отзывы:(5)</a>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+{% endblock %}

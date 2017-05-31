@@ -1,0 +1,22 @@
+﻿{% extends 'base.html' %}
+{% load staticfiles %}
+{% load html_tags %}
+{% block content %}
+<section class="block1-section clearfix">
+							<section class="contakt-main">
+							<div class="center-block-main">
+								<article class="contakt-block registration">
+									<h3>Регистрация</h3>
+									<div class="ftr-block-content">
+										<form action="{% url 'register' %}" method="post">
+				{% csrf_token %}
+				{{ user_form }}
+				<input class="ftrsubmit" type="submit" value="Отправить!">
+</form>
+									</div>
+								</article>
+							</div>
+
+						</section>		
+	</div>
+{% endblock %}
