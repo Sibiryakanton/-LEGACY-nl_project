@@ -3,7 +3,6 @@
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
-from django.core.mail import send_mail, get_connection, BadHeaderError
 from django.http import HttpResponseRedirect, HttpResponse
 
 from .models import Catalog, Category, CategoryElement, OfferElement, Post, BusinessText, Sponsor, Video, SMTPMail, RecMail, BusinessBullet, Subcategory
