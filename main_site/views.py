@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect, HttpResponse
 
-from .models import Catalog, Category, CategoryElement, OfferElement, Post, BusinessText, Sponsor, Video, SMTPMail, RecMail, BusinessBullet, Subcategory
+from .models import Catalog, Category, CategoryElement, OfferElement, Post, BusinessText, Sponsor, Video, RecMail, BusinessBullet, Subcategory
 from .forms import Call_Form, Registration, Message_Form, Cards_Filter
 import sys
 	
@@ -13,7 +13,7 @@ from django.core.mail import send_mail, get_connection
 
 # Представление для главной страницы
 def main(request):
-	category = Category.objects.filter(on_index=True).order_by('id')[:3]
+	category = Category.objects.filter(on_index=True).order_by('id')[:4]
 	list_fix = OfferElement.objects.filter(to_fix=True).order_by('-id')[:3]
 	def fill_number():
 		return 3 - len(list_fix)
@@ -104,7 +104,7 @@ def form_call(request):
 		birthday = request.POST.get('birthday', '')
 		telephone = request.POST.get('telephone', '')
 		if form.is_valid():
-			mail_host = SMTPMail.objects.all()[0] 
+			mail_host = 'orilamesender@gmail.com' 
 			rec_list = RecMail.objects.all()
 			recipients= []
 			for mail in rec_list:
@@ -115,7 +115,7 @@ def form_call(request):
 				Дата рождения: {3}
 				Телефон: {4}'''.format(name,lastname, middlename, birthday, telephone)
 			subject= 'Заявка на звонок'
-			send_mail(subject, message, mail_host.mail, recipients, fail_silently=False)
+			send_mail(subject, message, mail_host, recipients, fail_silently=False)
 			return redirect('/thanks/')
 		else:
 			return redirect('/error/')
@@ -128,7 +128,7 @@ def message_call(request):
 		mail = request.POST.get('mail', '')
 		msg = request.POST.get('msg', '')
 		if form.is_valid():
-			mail_host = SMTPMail.objects.all()[0] 
+			mail_host = 'orilamesender@gmail.com' 
 			rec_list = RecMail.objects.all()
 			recipients= []
 			for mail in rec_list:
@@ -138,8 +138,8 @@ def message_call(request):
 				___
 				Сообщение: {2}'''.format(name,mail, msg)
 			subject= 'Сообщение на сайте'
-			send_mail(subject, message, mail_host.mail, recipients, fail_silently=False)
-			return HttpResponse('/thanks/')
+			send_mail(subject, message, mail_host, recipients, fail_silently=False)
+			return redirect('/thanks/')
 		else:
 			return redirect('/error/')
 

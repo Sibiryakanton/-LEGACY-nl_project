@@ -82,30 +82,43 @@
 		</div>
 	<footer>
 		<div class="center-block-main">
+        <div class="logo-box">
+          <a href="/"><img class="logo" src="{% static 'images/nl.png' %}" width='30' height='80' alt="NL logo"></a>
+        </div>
         <ul class="top-menu">
-        	{% for referal in referal_objects %}
-			<div class='referal-box'>
-				<a href='{{referal.url}}' target='_blank'>
-				<img src='{{ referal.photo.url }}'/>
-				</a>
-			</div>
-			{% endfor %}
-<div class='yandex-metrika'>
-<!-- Yandex.Metrika informer -->
-<a href="https://metrika.yandex.ru/stat/?id=45303765&amp;from=informer"
-target="_blank" rel="nofollow"><img src="https://informer.yandex.ru/informer/45303765/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
-style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" /></a>
-<!-- /Yandex.Metrika informer -->
-
-
-</div>
-
-
+		
+			{% if request.path == '/' or 'products' in request.path or 'forsome' in request.path %}
+				<li class="active">Главная</li>
+			{% else %}
+				<li><a href="/">Главная</a></li>
+			{% endif %}
+			
+			{% if request.path == '/catalog/' %}
+				<li class="active">Каталог</li>
+			{% else %}
+				<li><a href="/catalog/">Каталог</a></li>
+			{% endif %}
+			
+			{% if request.path == '/wellness/' %}
+				<li class="active">Умная еда</li>
+			{% else %}
+				<li><a href="/wellness/">Умная еда</a></li>
+			{% endif %}
+			
+			{% if request.path == '/business/' %}
+				<li class="active">Бизнес-проект</li>
+			{% else %}
+				<li><a href="/business/">Бизнес-проект</a></li>
+			{% endif %}
+			{% if request.path == '/videos/' %}
+				<li class="active">Видео</li>
+			{% else %}
+				<li><a href="/videos/">Видео</a></li>
+			{% endif %}
         </ul>
 		
-        <a><button class="button call">Заказать звонок</button></a>
+        <button class="button call">Заказать звонок</a>
       </div>
-
 	</footer>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -122,35 +135,5 @@ style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" tit
         </script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>
- <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-    (function (d, w, c) {
-        (w[c] = w[c] || []).push(function() {
-            try {
-                w.yaCounter45303765 = new Ya.Metrika({
-                    id:45303765,
-                    clickmap:true,
-                    trackLinks:true,
-                    accurateTrackBounce:true,
-                    webvisor:true
-                });
-            } catch(e) { }
-        });
-
-        var n = d.getElementsByTagName("script")[0],
-            s = d.createElement("script"),
-            f = function () { n.parentNode.insertBefore(s, n); };
-        s.type = "text/javascript";
-        s.async = true;
-        s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-        if (w.opera == "[object Opera]") {
-            d.addEventListener("DOMContentLoaded", f, false);
-        } else { f(); }
-    })(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/45303765" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
-	   </body>
-</html>
+      </body>
+      </html>

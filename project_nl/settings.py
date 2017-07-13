@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 Django settings for project_nl project.
 
@@ -13,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,7 +25,7 @@ SECRET_KEY = '7iufz*j2@ig0igi9p8gw@1k202(v6orp=l3t4w4@miq!rh3lk3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['j-star.ru', 'nl.j-star.ru', 'web.j-star.ru',]
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -60,7 +59,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [True],
         'APP_DIRS': ['django.template.loaders.filesystem.Loader',
-          'django.template.loaders.app_directories.Loader'], 'OPTIONS': {
+          'django.template.loaders.app_directories.Loader'], 
+        'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 				
 				'context_processors.CallForm.CallForm',
+                'context_processors.CallForm.referal_tag'
             ],
 			
         },
