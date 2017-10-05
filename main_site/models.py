@@ -20,21 +20,10 @@ class Category(models.Model):
         return self.title
 
     def delete(self, *args, **kwargs):
-        super(Category, self).delete(*args, **kwargs)
-        if self.photo != '':
-            storage, path = self.photo.storage, self.photo.path
-            storage.delete(path)
+        delete_model_object(self, Category, *args, **kwargs)
 
     def save(self, *args, **kwargs):
-        try:
-            current_object = Category.objects.get(pk=self.pk)
-            if current_object.photo != self.photo:
-                path = current_object.photo.path
-                current_object.photo.storage.delete(path)
-                current_object.photo = self.photo
-        except Category.DoesNotExist:
-            pass
-        super(Category, self).save(*args, **kwargs)
+        save_model_object(self, Category, *args, **kwargs)
 
 
 class Subcategory(models.Model):

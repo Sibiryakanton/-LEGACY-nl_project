@@ -18,7 +18,8 @@ def main(request):
     list_fix = OfferElement.objects.filter(to_fix=True).order_by('-id')[:3]
 
     def fill_number():
-        return 3 - len(list_fix)
+        return 3 - len(list_fix)  # Если просто попытаться запросить в переменной 
+                                  # длину списка, когда база еще пуста, выдает ошибку
     number = fill_number()
     list_offer = OfferElement.objects.filter(to_fix=False).order_by('-id')[: number]
     return render(request, 'index.html', {'list': list_offer, 'list_fix': list_fix, 'category': category})
@@ -45,6 +46,7 @@ def category(request, slug):  # Представление товаров
     paginator = Paginator(cards, 15)
     page = request.GET.get('page')
     card_filter = Cards_Filter()
+    
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:
