@@ -70,21 +70,10 @@ class CategoryElement(models.Model):
         return self.title
 
     def delete(self, *args, **kwargs):
-        super(CategoryElement, self).delete(*args, **kwargs)
-        if self.photo != '':
-            storage, path = self.photo.storage, self.photo.path
-            storage.delete(path)
+        delete_model_object(self, CategoryElement, *args, **kwargs)
 
     def save(self, *args, **kwargs):
-        try:
-            current_object = CategoryElement.objects.get(pk=self.pk)
-            if current_object.photo != self.photo:
-                path = current_object.photo.path
-                current_object.photo.storage.delete(path)
-                current_object.photo = self.photo
-        except CategoryElement.DoesNotExist:
-            pass
-        super(CategoryElement, self).save(*args, **kwargs)
+        save_model_object(self, CategoryElement, *args, **kwargs)
 
 
 class OfferElement(models.Model):  # Представление для акций на главной
@@ -103,22 +92,10 @@ class OfferElement(models.Model):  # Представление для акци�
         return self.title
 
     def delete(self, *args, **kwargs):
-        super(OfferElement, self).delete(*args, **kwargs)
-        if self.photo != '':
-            storage, path = self.photo.storage, self.photo.path
-            storage.delete(path)
+        delete_model_object(self, OfferElement, *args, **kwargs)
 
     def save(self, *args, **kwargs):
-        try:
-            current_object = OfferElement.objects.get(pk=self.pk)
-            if current_object.photo != self.photo:
-                path = current_object.photo.path
-                current_object.photo.storage.delete(path)
-                current_object.photo = self.photo
-        except OfferElement.DoesNotExist:
-            pass
-        super(OfferElement, self).save(*args, **kwargs)
-
+        save_model_object(self, OfferElement, *args, **kwargs)
 
 class Sponsor(models.Model):  # Для раздела "Бизнес-проект"
 
@@ -139,25 +116,13 @@ class Sponsor(models.Model):  # Для раздела "Бизнес-проект
         return title
 
     def delete(self, *args, **kwargs):
-        super(Sponsor, self).delete(*args, **kwargs)
-        if self.photo != '':
-            storage, path = self.photo.storage, self.photo.path
-            storage.delete(path)
+        delete_model_object(self, Sponsor, *args, **kwargs)
 
     def save(self, *args, **kwargs):
-        try:
-            current_object = Sponsor.objects.get(pk=self.pk)
-            if current_object.photo != self.photo:
-                path = current_object.photo.path
-                current_object.photo.storage.delete(path)
-                current_object.photo = self.photo
-        except Sponsor.DoesNotExist:
-            pass
-        super(Sponsor, self).save(*args, **kwargs)
+        save_model_object(self, Sponsor, *args, **kwargs)
 
 
 class Video(models.Model):
-
     class Meta:
         verbose_name = "Видео"
         verbose_name_plural = "Видео"
@@ -186,22 +151,10 @@ class Image(models.Model):
         return self.title
 
     def delete(self, *args, **kwargs):
-        super(Image, self).delete(*args, **kwargs)
-        if self.photo != '':
-            storage, path = self.photo.storage, self.photo.path
-            storage.delete(path)
+        delete_model_object(self, Image, *args, **kwargs)
 
     def save(self, *args, **kwargs):
-        try:
-            current_object = Image.objects.get(pk=self.pk)
-            if current_object.photo != self.photo:
-                path = current_object.photo.path
-                current_object.photo.storage.delete(path)
-                current_object.photo = self.photo
-        except Image.DoesNotExist:
-            pass
-        super(Image, self).save(*args, **kwargs)
-
+        save_model_object(self, Image, *args, **kwargs)
 
 class Post(models.Model):
     class Meta:
@@ -217,21 +170,10 @@ class Post(models.Model):
         return self.title
 
     def delete(self, *args, **kwargs):
-        super(Post, self).delete(*args, **kwargs)
-        if self.photo != '':
-            storage, path = self.photo.storage, self.photo.path
-            storage.delete(path)
+        delete_model_object(self, Post, *args, **kwargs)
 
     def save(self, *args, **kwargs):
-        try:
-            current_object = Post.objects.get(pk=self.pk)
-            if current_object.photo != self.photo:
-                path = current_object.photo.path
-                current_object.photo.storage.delete(path)
-                current_object.photo = self.photo
-        except Post.DoesNotExist:
-            pass
-        super(Post, self).save(*args, **kwargs)
+        save_model_object(self, Post, *args, **kwargs)
 
 
 class Catalog(models.Model):
@@ -290,21 +232,10 @@ class BusinessBullet(models.Model):
         return self.title
 
     def delete(self, *args, **kwargs):
-        super(BusinessBullet, self).delete(*args, **kwargs)
-        if self.photo != '':
-            storage, path = self.photo.storage, self.photo.path
-            storage.delete(path)
+        delete_model_object(self, BusinessBullet, *args, **kwargs)
 
     def save(self, *args, **kwargs):
-        try:
-            current_object = BusinessBullet.objects.get(pk=self.pk)
-            if current_object.photo != self.photo:
-                path = current_object.photo.path
-                current_object.photo.storage.delete(path)
-                current_object.photo = self.photo
-        except BusinessBullet.DoesNotExist:
-            pass
-        super(BusinessBullet, self).save(*args, **kwargs)
+        save_model_object(self, BusinessBullet, *args, **kwargs)
 
 
 class ReferralUrl(models.Model):
@@ -320,19 +251,26 @@ class ReferralUrl(models.Model):
             return self.title
 
     def delete(self, *args, **kwargs):
-        super(ReferralUrl, self).delete(*args, **kwargs)
-        if self.photo != '':
-            storage, path = self.photo.storage, self.photo.path
-            storage.delete(path)
+        delete_model_object(self, ReferralUrl, *args, **kwargs)
 
     def save(self, *args, **kwargs):
-        try:
-            current_object = ReferralUrl.objects.get(pk=self.pk)
-            if current_object.photo != self.photo:
-                path = current_object.photo.path
-                current_object.photo.storage.delete(path)
-                current_object.photo = self.photo
-        except ReferralUrl.DoesNotExist:
-            pass
-        super(ReferralUrl, self).save(*args, **kwargs)
+        save_model_object(self, ReferralUrl, *args, **kwargs)
 
+
+# Функции для удаления изображения вместе с объектом модели (с их введением объем половины моделей сократился минимум на треть)
+def delete_model_object(obj, model, *args, **kwargs):
+    super(model, obj).delete(*args, **kwargs)
+    if obj.photo != '':
+        storage, path = obj.photo.storage, obj.photo.path
+        storage.delete(path)
+
+def save_model_object(obj, model, *args, **kwargs):
+    try:
+        current_object = model.objects.get(pk=obj.pk)
+        if current_object.photo != obj.photo:
+            path = current_object.photo.path
+            current_object.photo.storage.delete(path)
+            current_object.photo = obj.photo
+    except model.DoesNotExist:
+        pass
+    super(model, obj).save(*args, **kwargs)
