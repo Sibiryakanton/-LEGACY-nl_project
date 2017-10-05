@@ -6,71 +6,73 @@ from ckeditor.fields import RichTextField
 from django.conf import settings
 
 
-
 class Category(models.Model):
     class Meta:
-        verbose_name="Категория"
-        verbose_name_plural="Категории"
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
     title = models.CharField("Заголовок", max_length=30)
     subcategory = models.ManyToManyField('Subcategory', verbose_name='Подкатегории', related_name='category', blank=True)
     photo = models.ImageField("Фото", upload_to="images/catalog", default="")
     slug = models.CharField("Метка(для URl-адреса)", max_length=30)
     on_index = models.BooleanField('Разместить на главной', default=False)
-    
+
     def __str__(self):
         return self.title
 
     def delete(self, *args, **kwargs):
         super(Category, self).delete(*args, **kwargs)
-        if self.photo!='':
-            storage,path = self.photo.storage, self.photo.path
+        if self.photo != '':
+            storage, path = self.photo.storage, self.photo.path
             storage.delete(path)
- 
+
     def save(self, *args, **kwargs):
         try:
             current_object = Category.objects.get(pk=self.pk)
             if current_object.photo != self.photo:
                 path = current_object.photo.path
                 current_object.photo.storage.delete(path)
-                current_object.photo= self.photo
+                current_object.photo = self.photo
         except Category.DoesNotExist:
             pass
-        super(Category,self).save(*args, **kwargs)
+        super(Category, self).save(*args, **kwargs)
+
 
 class Subcategory(models.Model):
-    
     class Meta:
-        verbose_name="Подкатегория"
-        verbose_name_plural="Подкатегории"
-    
+        verbose_name = "Подкатегория"
+        verbose_name_plural = "Подкатегории"
+
     title = models.CharField("Заголовок", max_length=30)
-    slug = models.CharField("Метка(для URl-адреса)", max_length=30, default="")
+    slug = models.CharField("Метка (для URl-адреса)", max_length=30, default="")
+
     def __str__(self):
         return self.title
-        
+
+
 class CategoryElement(models.Model):
-    
+
     class Meta:
-        verbose_name="Товарная карточка"
-        verbose_name_plural="Товарные карточки"
-        
+        verbose_name = "Товарная карточка"
+        verbose_name_plural = "Товарные карточки"
+
     title = models.CharField("Заголовок", max_length=30)
     photo = models.ImageField("Фото", upload_to="images/catalog_element", help_text='Основное фото для каталога. Остальные фото можно разместить в поле "Текст"')
-    category=models.ForeignKey("Category", verbose_name="Категория")
+    category = models.ForeignKey("Category", verbose_name="Категория")
     subcategory = models.ForeignKey('Subcategory', verbose_name='Подкатегории', default=0, blank=True)
-    description = models.CharField("Краткое описание", max_length = 100, help_text='1-2 предложения о продукте')
+    description = models.CharField("Краткое описание", max_length=100, help_text='1-2 предложения о продукте')
     full_text = RichTextField("Текст")
     price = models.IntegerField("Цена")
-    published_date = models.DateTimeField('Дата публикации', blank= True, null = True)
+    published_date = models.DateTimeField('Дата публикации', blank=True, null=True)
     publish = models.BooleanField('Показывать в каталоге', default=True, blank=True)
     prepared = models.BooleanField('Полностью подготовлено', default=False, blank=True)
+
     def __str__(self):
         return self.title
-    
+
     def delete(self, *args, **kwargs):
         super(CategoryElement, self).delete(*args, **kwargs)
-        if self.photo!='':
-            storage,path = self.photo.storage, self.photo.path
+        if self.photo != '':
+            storage, path = self.photo.storage, self.photo.path
             storage.delete(path)
 
     def save(self, *args, **kwargs):
@@ -79,64 +81,67 @@ class CategoryElement(models.Model):
             if current_object.photo != self.photo:
                 path = current_object.photo.path
                 current_object.photo.storage.delete(path)
-                current_object.photo= self.photo
+                current_object.photo = self.photo
         except CategoryElement.DoesNotExist:
             pass
-        super(CategoryElement,self).save(*args, **kwargs)
+        super(CategoryElement, self).save(*args, **kwargs)
 
-class OfferElement(models.Model): #Представление для акций на главной
-    
+
+class OfferElement(models.Model):  # Представление для акций на главной
     class Meta:
-        verbose_name="Акция"
-        verbose_name_plural="Акции"
+        verbose_name = "Акция"
+        verbose_name_plural = "Акции"
+
     title = models.CharField("Заголовок", max_length=100)
     photo = models.ImageField("Фото", upload_to="images/offer")
     description = models.CharField("Краткое описание", max_length=300)
     text = RichTextField("Текст")
-    published_date = models.DateTimeField("Дата публикации", blank=True,null=True)
+    published_date = models.DateTimeField("Дата публикации", blank=True, null=True)
     to_fix = models.BooleanField('Закрепить на главной', default=False)
+
     def __str__(self):
         return self.title
 
     def delete(self, *args, **kwargs):
         super(OfferElement, self).delete(*args, **kwargs)
-        if self.photo!='':
-            storage,path = self.photo.storage, self.photo.path
+        if self.photo != '':
+            storage, path = self.photo.storage, self.photo.path
             storage.delete(path)
- 
+
     def save(self, *args, **kwargs):
         try:
             current_object = OfferElement.objects.get(pk=self.pk)
             if current_object.photo != self.photo:
                 path = current_object.photo.path
                 current_object.photo.storage.delete(path)
-                current_object.photo= self.photo
+                current_object.photo = self.photo
         except OfferElement.DoesNotExist:
             pass
-        super(OfferElement,self).save(*args, **kwargs)
+        super(OfferElement, self).save(*args, **kwargs)
 
-class Sponsor(models.Model): #Для раздела "Бизнес-проект"
-    
+
+class Sponsor(models.Model):  # Для раздела "Бизнес-проект"
+
     class Meta:
-        verbose_name="Лидер"
-        verbose_name_plural="Лидеры"
+        verbose_name = "Лидер"
+        verbose_name_plural = "Лидеры"
     surname = models.CharField("Фамилия", max_length=30)
     name = models.CharField("Имя", max_length=30)
     middle = models.CharField("Отчество", max_length=30)
     photo = models.ImageField("Фото", upload_to="images/sponsor", default='')
     refferal_url = models.CharField('Реферальная ссылка', max_length=200, default='')
     code_number = models.BigIntegerField("Код в NL", null=True, blank=True)
-    on_business=models.BooleanField("Добавить в список на странице 'Бизнес-проект'", default=False)
-    
+    on_business = models.BooleanField("Добавить в список на странице 'Бизнес-проект'", default=False)
+
     def __str__(self):
         code_number_2 = str(self.code_number)
-        title = "{0} {1} {2} ({3})".format(self.name,self.surname,self.middle,code_number_2)
+        title = "{0} {1} {2} ({3})".format(self.name, self.surname, self.middle, code_number_2)
         return title
-    
+
     def delete(self, *args, **kwargs):
         super(Sponsor, self).delete(*args, **kwargs)
-        if self.photo!='':
-            storage,path = self.photo.storage, self.photo.path
+        if self.photo != '':
+            storage, path = self.photo.storage, self.photo.path
             storage.delete(path)
 
     def save(self, *args, **kwargs):
@@ -145,41 +150,45 @@ class Sponsor(models.Model): #Для раздела "Бизнес-проект"
             if current_object.photo != self.photo:
                 path = current_object.photo.path
                 current_object.photo.storage.delete(path)
-                current_object.photo= self.photo
+                current_object.photo = self.photo
         except Sponsor.DoesNotExist:
             pass
-        super(Sponsor,self).save(*args, **kwargs)
+        super(Sponsor, self).save(*args, **kwargs)
+
 
 class Video(models.Model):
-        
+
     class Meta:
-        verbose_name="Видео"
-        verbose_name_plural="Видео"
+        verbose_name = "Видео"
+        verbose_name_plural = "Видео"
+
     title = models.CharField("Заголовок", max_length=100)
     video_url = models.URLField("URL-ссылка", max_length=200)
     priority = models.IntegerField('Приоритет в разделе "Видео"', default=1)
     in_gallery = models.BooleanField('Показывать в разделе "Видео"', default=False)
-    def save(self,*args, **kwargs ): 
-        self.video_url = self.video_url.replace("https://www.youtube.com/watch?v=","https://www.youtube.com/embed/")
+
+    def save(self, *args, **kwargs):
+        self.video_url = self.video_url.replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")
         super(Video, self).save(*args, **kwargs)
-        
+
     def __str__(self):
-        return self.title       
+        return self.title
 
 
 class Image(models.Model):
     class Meta:
-        verbose_name='изображение'
-        verbose_name_plural='изображения'
+        verbose_name = 'изображение'
+        verbose_name_plural = 'изображения'
     title = models.CharField(max_length=150)
     photo = models.ImageField('Фото', upload_to='images/photos')
+
     def __str__(self):
         return self.title
-    
+
     def delete(self, *args, **kwargs):
         super(Image, self).delete(*args, **kwargs)
-        if self.photo!='':
-            storage,path = self.photo.storage, self.photo.path
+        if self.photo != '':
+            storage, path = self.photo.storage, self.photo.path
             storage.delete(path)
 
     def save(self, *args, **kwargs):
@@ -188,110 +197,120 @@ class Image(models.Model):
             if current_object.photo != self.photo:
                 path = current_object.photo.path
                 current_object.photo.storage.delete(path)
-                current_object.photo= self.photo
+                current_object.photo = self.photo
         except Image.DoesNotExist:
             pass
-        super(Image,self).save(*args, **kwargs)
+        super(Image, self).save(*args, **kwargs)
 
-class Post(models.Model):   
+
+class Post(models.Model):
     class Meta:
-        verbose_name_plural="Записи для Wellness"
-        verbose_name="Записи для Wellness"
+        verbose_name_plural = "Записи для Wellness"
+        verbose_name = "Записи для Wellness"
+
     title = models.CharField("Заголовок", max_length=50)
     photo = models.ImageField("Фото", upload_to="welness_icons")
     description = models.CharField("Краткое описание", max_length=200)
     text = RichTextField(verbose_name="Текст")
+
     def __str__(self):
         return self.title
-    
+
     def delete(self, *args, **kwargs):
         super(Post, self).delete(*args, **kwargs)
-        if self.photo!='':
-            storage,path = self.photo.storage, self.photo.path
+        if self.photo != '':
+            storage, path = self.photo.storage, self.photo.path
             storage.delete(path)
-    
+
     def save(self, *args, **kwargs):
         try:
             current_object = Post.objects.get(pk=self.pk)
             if current_object.photo != self.photo:
                 path = current_object.photo.path
                 current_object.photo.storage.delete(path)
-                current_object.photo= self.photo
+                current_object.photo = self.photo
         except Post.DoesNotExist:
             pass
-        super(Post,self).save(*args, **kwargs)
+        super(Post, self).save(*args, **kwargs)
+
 
 class Catalog(models.Model):
-    
     class Meta:
-        verbose_name="Каталог"
-        verbose_name_plural="Каталоги"
+        verbose_name = "Каталог"
+        verbose_name_plural = "Каталоги"
+
     title = models.CharField("Заголовок", max_length=100)
-    #document = models.FileField(upload_to="catalog/", verbose_name="Файл")
+    # document = models.FileField(upload_to="catalog/", verbose_name="Файл")
     url = models.URLField(max_length=300, help_text='Ссылка на каталог в Google-документах')
-    
-    def save(self,*args, **kwargs ):
+
+    def save(self, *args, **kwargs):
         if "preview" not in self.url:
-            self.url = self.url.replace("view","preview")
+            self.url = self.url.replace("view", "preview")
         super(Catalog, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
+
 
 class BusinessText(models.Model):
     class Meta:
-        verbose_name="Бизнес-проект: текст для страницы"
-        verbose_name_plural="Бизнес-проект: текст для страниц"
-    
-    title=models.CharField("Заголовок", max_length=100)
-    full_text= RichTextField("Текст")
-    
+        verbose_name = "Бизнес-проект: текст для страницы"
+        verbose_name_plural = "Бизнес-проект: текст для страниц"
+
+    title = models.CharField("Заголовок", max_length=100)
+    full_text = RichTextField("Текст")
+
     def __str__(self):
         return self.title
-        
+
+
 class RecMail(models.Model):
     class Meta:
-        verbose_name="Настройки уведомлений: ящики, принимающие заявки"
-        verbose_name_plural="Настройки уведомлений: ящики, принимающие заявки"
-    
+        verbose_name = "Настройки уведомлений: ящики, принимающие заявки"
+        verbose_name_plural = "Настройки уведомлений: ящики, принимающие заявки"
+
     name = models.CharField(max_length=100)
-    mail=models.EmailField(verbose_name="Почтовый ящик")
-    
+    mail = models.EmailField(verbose_name="Почтовый ящик")
+
     def __str__(self):
-        return self.name+", "+ self.mail
-    
+        return self.name + ", " + self.mail
+
+
 class BusinessBullet(models.Model):
     class Meta:
-        verbose_name="бизнес-проект: буллет"
-        verbose_name_plural="бизнес-проект: буллеты"
-    
+        verbose_name = "бизнес-проект: буллет"
+        verbose_name_plural = "бизнес-проект: буллеты"
+
     title = models.CharField("Заголовок", max_length=30)
     description = models.CharField("Описание", max_length=150)
     photo = models.ImageField("Фото", upload_to="images/business_bullet")
     text = models.TextField("Текст")
-    
+
     def __str__(self):
         return self.title
 
     def delete(self, *args, **kwargs):
         super(BusinessBullet, self).delete(*args, **kwargs)
-        if self.photo!='':
-            storage,path = self.photo.storage, self.photo.path
+        if self.photo != '':
+            storage, path = self.photo.storage, self.photo.path
             storage.delete(path)
+
     def save(self, *args, **kwargs):
         try:
             current_object = BusinessBullet.objects.get(pk=self.pk)
             if current_object.photo != self.photo:
                 path = current_object.photo.path
                 current_object.photo.storage.delete(path)
-                current_object.photo= self.photo
+                current_object.photo = self.photo
         except BusinessBullet.DoesNotExist:
             pass
-        super(BusinessBullet,self).save(*args, **kwargs)
+        super(BusinessBullet, self).save(*args, **kwargs)
+
 
 class ReferralUrl(models.Model):
     class Meta:
-        verbose_name='Реферальная ссылка'
-        verbose_name_plural='Реферальные ссылки'
+        verbose_name = 'Реферальная ссылка'
+        verbose_name_plural = 'Реферальные ссылки'
 
     title = models.CharField('Заголовок(для админки)', max_length=30)
     url = models.URLField('Ссылка',)
@@ -302,8 +321,8 @@ class ReferralUrl(models.Model):
 
     def delete(self, *args, **kwargs):
         super(ReferralUrl, self).delete(*args, **kwargs)
-        if self.photo!='':
-            storage,path = self.photo.storage, self.photo.path
+        if self.photo != '':
+            storage, path = self.photo.storage, self.photo.path
             storage.delete(path)
 
     def save(self, *args, **kwargs):
@@ -312,7 +331,8 @@ class ReferralUrl(models.Model):
             if current_object.photo != self.photo:
                 path = current_object.photo.path
                 current_object.photo.storage.delete(path)
-                current_object.photo= self.photo
+                current_object.photo = self.photo
         except ReferralUrl.DoesNotExist:
             pass
-        super(ReferralUrl,self).save(*args, **kwargs)
+        super(ReferralUrl, self).save(*args, **kwargs)
+
