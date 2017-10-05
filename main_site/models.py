@@ -5,6 +5,8 @@ from django.forms import MultiValueField, CharField, ChoiceField, MultiWidget, T
 from ckeditor.fields import RichTextField
 from django.conf import settings
 
+
+
 class Category(models.Model):
     class Meta:
         verbose_name="Категория"
