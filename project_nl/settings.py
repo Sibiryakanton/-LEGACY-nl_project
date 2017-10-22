@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '7iufz*j2@ig0igi9p8gw@1k202(v6orp=l3t4w4@miq!rh3lk3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*',]
 
@@ -157,16 +157,16 @@ HAYSTACK_CONNECTIONS = {
     'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
   },
 }
+
 EMAIL_HOST = 'smtp.gmail.com'
-
 EMAIL_PORT = 587
-
 EMAIL_USE_TLS=True
-
 EMAIL_HOST_USER = 'oriflamesender'
-
 EMAIL_HOST_PASSWORD= 'qjzxtfg23'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-
 SESSION_COOKIE_AGE=3600
+
+try:
+    from .local_settings import *
+except:
+    pass
