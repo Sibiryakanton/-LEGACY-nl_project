@@ -4,6 +4,7 @@ from django.shortcuts import render, render_to_response, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect, HttpResponse
+from django.views.generic import TemplateView
 
 from .models import Catalog, Category, CategoryElement, OfferElement, Post, BusinessText, Sponsor, Video, RecMail, BusinessBullet, Subcategory
 from .forms import CallForm, Registration, MessageForm, CardsFilter
@@ -11,21 +12,26 @@ import sys
 
 from django.core.mail import send_mail, get_connection
 
+
 class Empty(object):
     def __init__(self, title):
         self.title = title
 
-# Представление для главной страницы
-def main(request):
-    category = Category.objects.filter(on_index=True).order_by('id')[:4]
-    list_fix = OfferElement.objects.filter(to_fix=True).order_by('-id')[:3]
+class MainView(TemplateView):
+    def get_context_data(self, request, *args, **kwargs):
+        context = super(MainView, self).get_context_data(**kwargs)
+        context['category'] = Category.objects.filter(on_index=True).order_by('id')[:4]
+        context['list_fix'] = OfferElement.objects.filter(to_fix=True).order_by('-id')[:3]
 
-    def fill_number():
-        return 3 - len(list_fix)  # Если просто попытаться запросить в переменной 
-                                  # длину списка, когда база еще пуста, выдает ошибку
-    number = fill_number()
-    list_offer = OfferElement.objects.filter(to_fix=False).order_by('-id')[: number]
-    return render(request, 'index.html', {'list': list_offer, 'list_fix': list_fix, 'category': category})
+        offer_block_len = 3
+        if len(context['list_fix']) < 3:
+            offer_block_len = 3 - len(context['list_fix'])
+
+        context['list_offer'] = OfferElement.objects.filter(to_fix=False).order_by('-id')[:offer_block_len]
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'index.html', self.get_context_data(request))
 
 
 def catalog(request):  # Представление для страницы PDF-каталога

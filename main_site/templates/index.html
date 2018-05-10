@@ -14,26 +14,26 @@
       <div class="center-block-main">
         <h2>Действующие<br>акции</h2>
         <div class="slides">
-		{% for list_fix in list_fix %}
+		{% for list_element in list_fix %}
 			<article>
-            <h3>{{list_fix.title}}</h3>
+            <h3>{{list_element.title}}</h3>
             <div class="slide boxShadow">
-              <a href="{% url 'stock_detail' pk=list_fix.pk %}"><img src='{{list_fix.photo.url}}' alt=""></a>
+              <a href="{% url 'stock_detail' pk=list_element.pk %}"><img src='{{list_element.photo.url}}' alt=""></a>
               <div class="desc">
-               <h4>{{list_fix.description}}</h4>
-				<a href="{% url 'stock_detail' pk=list_fix.pk %}"><u>Подробнее</u></a>
+               <h4>{{list_element.description}}</h4>
+				<a href="{% url 'stock_detail' pk=list_element.pk %}"><u>Подробнее</u></a>
                 </div>
               </div>
             </article>
 		{% endfor %}
-		{% for list in list %}
+		{% for list_element in list_offer %}
           <article>
-            <h3>{{list.title}}</h3>
+            <h3>{{list_element.title}}</h3>
             <div class="slide boxShadow">
-              <a href="{% url 'stock_detail' pk=list.pk %}"><img src='{{list.photo.url}}' alt=""></a>
+              <a href="{% url 'stock_detail' pk=list_element.pk %}"><img src='{{list_element.photo.url}}' alt=""></a>
               <div class="desc">
-               <h4>{{list.description}}</h4>
-				<a href="{% url 'stock_detail' pk=list.pk %}"><u>Подробнее</u></a>
+               <h4>{{list_element.description}}</h4>
+				<a href="{% url 'stock_detail' pk=list_element.pk %}"><u>Подробнее</u></a>
                 </div>
               </div>
             </article>

@@ -21,7 +21,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.main, name='main'),
+    url(r'^$', views.MainView.as_view(), name='main'),
     url(r'^catalog/$', views.catalog, name='catalog'),
     url(r'^wellness/$', views.wellness, name='wellness'),
     url(r'^business/$', views.business, name='business'),
