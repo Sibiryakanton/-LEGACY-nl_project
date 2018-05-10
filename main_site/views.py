@@ -37,25 +37,24 @@ class MainView(TemplateView):
 def catalog(request):  # Представление для страницы PDF-каталога
     catalog_list = Catalog.objects.all().order_by('-id')
     catalog = Empty('На сайте нет ни одного каталога')
-
     if len(catalog_list) != 0:
         catalog = catalog_list[0]
-
     return render(request, 'catalog.html', {'catalog': catalog})
-
 
 def category(request, slug):  # Представление товаров
     if request.method == 'POST':
         sub_title = request.POST.get('name', '')
         category_slug = request.POST.get('cur_category', '')
+
         current_subcategory = Subcategory.objects.get(pk=sub_title)
         category = Category.objects.get(slug=category_slug)
-        all_subcategory = category.subcategory.all()
-        cards = CategoryElement.objects.filter(subcategory=current_subcategory, category=category).order_by('-published_date')
+        cards = CategoryElement.objects.filter(subcategory=current_subcategory,
+                                               category=category).order_by('-published_date')
     else:
         category = Category.objects.get(slug=slug)
-        all_subcategory = category.subcategory.all()
         cards = CategoryElement.objects.filter(category=category).order_by('-published_date')
+
+    all_subcategory = category.subcategory.all()
     paginator = Paginator(cards, 15)
     page = request.GET.get('page')
     card_filter = CardsFilter()
@@ -66,33 +65,28 @@ def category(request, slug):  # Представление товаров
         cards = paginator.page(1)
     except EmptyPage:
         cards = paginator.page(paginator.num_pages)
-    return render(request, 'forsome.html', {'cards': cards, 'category': category, 'page': page, 'filter': card_filter, 'subcat': all_subcategory})
-
+    context = {'cards': cards, 'category': category, 'page': page, 'filter': card_filter, 'subcat': all_subcategory}
+    return render(request, 'forsome.html', context)
 
 def category_description(request, pk):  # Описание отдельного товара
     current_card = CategoryElement.objects.get(pk=pk)
     return render(request, 'description.html', {'current_card': current_card})
 
-
 def wellness(request):
     wellness_list = Post.objects.all().order_by('-id')
     return render(request, 'wellness.html', {'wellness': wellness_list})
-
 
 def stock_detail(request, pk):  # Детали акции на главной
     current_article = OfferElement.objects.get(pk=pk)
     return render(request, 'article.html', {'article': current_article})
 
-
 def post_detail(request, pk):
     current_article = Post.objects.get(pk=pk)
     return render(request, 'article.html', {'article': current_article})
 
-
 def bullet_detail(request, pk):  # Пункты списка в Бизнес-проекте
     current_article = BusinessBullet.objects.get(pk=pk)
     return render(request, 'article.html', {'article': current_article})
-
 
 def business(request):  # Представление страницы Бизнес-проект
     text_business = BusinessText.objects.all()
@@ -108,7 +102,6 @@ def business(request):  # Представление страницы Бизне
         form = MessageForm()
     return render(request, 'business.html', {'text': text_business, 'sponsors': sponsors, 'bullets': bullets, 'form': form})
 
-
 def video_gallery(request):
     video_list = Video.objects.filter(in_gallery=True).order_by('-priority')
     paginator = Paginator(video_list, 10)
@@ -120,7 +113,6 @@ def video_gallery(request):
     except EmptyPage:
         video_list = paginator.page(paginator.num_pages)
     return render(request, 'videogallery.html', {'video_list': video_list, 'page': page})
-
 
 def form_call(request):
     if request.method == 'POST':
@@ -147,7 +139,6 @@ def form_call(request):
         else:
             return redirect('/error/')
 
-
 def message_call(request):
     if request.POST:
         form = MessageForm(request.POST)
@@ -169,7 +160,6 @@ def message_call(request):
             return redirect('/thanks/')
         else:
             return redirect('/error/')
-
 
 def thanks(request):
     return render(request, 'thanks.html', {})
