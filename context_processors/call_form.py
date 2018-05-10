@@ -1,7 +1,8 @@
-﻿from main_site.forms import Call_Form
+﻿from main_site.forms import CallForm
 from main_site.models import ReferralUrl
-def CallForm(request):
-	form = Call_Form()
+
+def call_form(request):
+	form = CallForm()
 	return {'CallForm': form}
 
 def referal_tag(request):

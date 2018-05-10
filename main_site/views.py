@@ -6,11 +6,14 @@ from django.shortcuts import redirect
 from django.http import HttpResponseRedirect, HttpResponse
 
 from .models import Catalog, Category, CategoryElement, OfferElement, Post, BusinessText, Sponsor, Video, RecMail, BusinessBullet, Subcategory
-from .forms import Call_Form, Registration, Message_Form, Cards_Filter
+from .forms import CallForm, Registration, MessageForm, CardsFilter
 import sys
 
 from django.core.mail import send_mail, get_connection
 
+class Empty(object):
+    def __init__(self, title):
+        self.title = title
 
 # Представление для главной страницы
 def main(request):
@@ -27,7 +30,11 @@ def main(request):
 
 def catalog(request):  # Представление для страницы PDF-каталога
     catalog_list = Catalog.objects.all().order_by('-id')
-    catalog = catalog_list[0]
+    catalog = Empty('На сайте нет ни одного каталога')
+
+    if len(catalog_list) != 0:
+        catalog = catalog_list[0]
+
     return render(request, 'catalog.html', {'catalog': catalog})
 
 
@@ -45,7 +52,7 @@ def category(request, slug):  # Представление товаров
         cards = CategoryElement.objects.filter(category=category).order_by('-published_date')
     paginator = Paginator(cards, 15)
     page = request.GET.get('page')
-    card_filter = Cards_Filter()
+    card_filter = CardsFilter()
     
     try:
         cards = paginator.page(page)
@@ -92,7 +99,7 @@ def business(request):  # Представление страницы Бизне
         else:
             return redirect('/error/')
     else:
-        form = Message_Form()
+        form = MessageForm()
     return render(request, 'business.html', {'text': text_business, 'sponsors': sponsors, 'bullets': bullets, 'form': form})
 
 
@@ -111,7 +118,7 @@ def video_gallery(request):
 
 def form_call(request):
     if request.method == 'POST':
-        form = Call_Form(request.POST)
+        form = CallForm(request.POST)
         name = request.POST.get('name', '')
         lastname = request.POST.get('lastname', '')
         middlename = request.POST.get('middlename', '')
@@ -137,7 +144,7 @@ def form_call(request):
 
 def message_call(request):
     if request.POST:
-        form = Message_Form(request.POST)
+        form = MessageForm(request.POST)
         name = request.POST.get('name', '')
         mail = request.POST.get('mail', '')
         msg = request.POST.get('msg', '')

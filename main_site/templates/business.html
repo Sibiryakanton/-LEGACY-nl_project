@@ -56,9 +56,9 @@
 								{% for sponsor in sponsors %}
 								<article>
 									<img src="{{ sponsor.photo.url}}" alt="">
-									<div class="block4-main-content">            	
-										<p>{{sponsor.surname}}<br>{{sponsor.name}}</p>
-										<p><a class='refferal-url' href='{{sponsor.refferal_url}}'>Реферальная ссылка</a></p>
+									<div class="block4-main-content"> {{sponsor.get_custom_url}}           	
+										<p>{{sponsor.last_name}}<br>{{sponsor.name}}</p>
+										<p><a class='refferal-url' href='{{sponsor.get_custom_url}}'>{{sponsor.get_custom_url}} </a></p>
 									</div>
 								</article>
 								{% endfor %}

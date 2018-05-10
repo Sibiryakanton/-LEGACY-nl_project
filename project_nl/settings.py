@@ -67,8 +67,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 				
-				'context_processors.CallForm.CallForm',
-                'context_processors.CallForm.referal_tag'
+				'context_processors.call_form.call_form',
+                'context_processors.call_form.referal_tag'
             ],
 			
         },
@@ -125,7 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'main_site','static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -158,12 +158,7 @@ HAYSTACK_CONNECTIONS = {
   },
 }
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER = 'oriflamesender'
-EMAIL_HOST_PASSWORD= 'qjzxtfg23'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 SESSION_COOKIE_AGE=3600
 
 try:

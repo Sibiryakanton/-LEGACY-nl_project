@@ -1,13 +1,13 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 from django import template
-from ..forms import Call_Form
+from ..forms import CallForm
 from django.utils.html import escape
 register = template.Library()
+
 INVALID_TAGS = ['script',]
 
-
 @register.simple_tag
-def CallForm_tag():
-	callform = Call_Form()
+def call_form_tag():
+	callform = CallForm()
 	return callform

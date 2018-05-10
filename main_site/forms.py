@@ -29,7 +29,7 @@ class Registration(forms.Form):
     sponsor = forms.ModelChoiceField(label='Спонсор', queryset=TakeAllObjects(Sponsor), empty_label='---', widget=forms.Select(attrs={'class': 'ftrmail'}))
 
 
-class Call_Form(forms.Form):
+class CallForm(forms.Form):
     lastname = forms.CharField(label='Фамилия', max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Фамилия', 'class': 'ftrmail'}))
     name = forms.CharField(label='Имя', max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Имя', 'class': 'ftrmail'}))
     middlename = forms.CharField(label='Отчество', max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Отчество', 'class': 'ftrmail'}))
@@ -37,13 +37,13 @@ class Call_Form(forms.Form):
     telephone = forms.CharField(label='Телефон', validators=[RegexValidator('^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$')], widget=forms.TextInput(attrs={'type': 'phone', 'id': 'user_phone', 'class': 'ftrmail', 'required': 'True', 'pattern': "[0-9_-]{10}", 'title': 'Пример: 8-888-888-88-88'}))
 
 
-class Message_Form(forms.Form):
+class MessageForm(forms.Form):
     name = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'ftrmail', 'placeholder': 'Имя'}))
     mail = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'ftrmail', 'type': 'email', 'placeholder': 'E-mail'}))
     msg = forms.CharField(label='', widget=forms.Textarea(attrs={'class': 'ftrtext', 'rows': '4', 'placeholder': 'Сообщение'}))
 
 
-class Cards_Filter(forms.Form):
+class CardsFilter(forms.Form):
     name = forms.ModelChoiceField(label='Все категории', queryset=TakeAllObjects(Category), empty_label='---', widget=forms.Select(attrs={'class': "category_filter", 'name': 'subcategory'}))
 
 
